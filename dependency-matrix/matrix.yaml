@@ -1,0 +1,7 @@
+dependencies:
+- host: github.com
+  owner: ccojocar-org
+  repo: golang-test
+  url: https://github.com/ccojocar-org/golang-test.git
+  version: ""
+  versionURL: ""
