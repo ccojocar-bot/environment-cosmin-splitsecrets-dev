@@ -9,6 +9,8 @@ pipelineConfig:
         - name: pr-checks
           options:
             containerOptions:
+              name: ""
+              resources: {}
               volumeMounts:
               - mountPath: /builder/home/.jx/localSecrets/currentCluster
                 name: local-secrets
@@ -40,10 +42,20 @@ pipelineConfig:
         environment:
         - name: DEPLOY_NAMESPACE
           value: jx
+        - name: GIT_AUTHOR_NAME
+          value: ccojocar-bot
+        - name: GIT_COMMITTER_NAME
+          value: ccojocar-bot
+        - name: GIT_AUTHOR_EMAIL
+          value: jx-bot@gmx.ch
+        - name: GIT_COMMITTER_EMAIL
+          value: jx-bot@gmx.ch
         stages:
         - name: release
           options:
             containerOptions:
+              name: ""
+              resources: {}
               volumeMounts:
               - mountPath: /builder/home/.jx/localSecrets/currentCluster
                 name: local-secrets
@@ -197,6 +209,29 @@ pipelineConfig:
             command: jx
             dir: /workspace/source/env
             name: create-helm-values
+          - args:
+            - step
+            - create
+            - templated
+            - --parameters-file=../../env/parameters.yaml
+            - --requirements-dir=../../
+            - --template-file=jx-auth-configmap.tmpl.yaml
+            - --config-file=templates/jx-auth-configmap.yaml
+            command: jx
+            dir: /workspace/source/systems/jx-auth
+            name: create-jx-auth-config
+          - args:
+            - step
+            - helm
+            - apply
+            - --boot
+            - --remote
+            - --no-vault
+            - --name
+            - jx-auth
+            command: jx
+            dir: /workspace/source/systems/jx-auth
+            name: install-jx-auth-config
           - args:
             - step
             - helm

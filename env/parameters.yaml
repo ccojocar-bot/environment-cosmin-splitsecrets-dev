@@ -1,0 +1,10 @@
+adminUser:
+  password: vault:cosmin-splitsecrets/adminUser:password
+  username: admin
+enableDocker: false
+pipelineUser:
+  email: jx-bot@gmx.ch
+  token: vault:cosmin-splitsecrets/pipelineUser:token
+  username: ccojocar-bot
+prow:
+  hmacToken: vault:cosmin-splitsecrets/prow:hmacToken
